@@ -6,10 +6,30 @@
 </head>
 <body>
     <header>
-        <h1>LitReviews</h1>
+        <div class="header__right"></div>
+        <a href="{% if user.is_authenticated %}{% url 'feed' %}{% else %}{% url 'login' %}{% endif %}">
+            <div class="header__center">
+                <img class="logo" src="{% static 'img/logo_black.png' %}">
+                <h1>LITReviews</h1>
+            </div>
+        </a>
+        <div class="header__left">
+            {%if user.is_authenticated %}
+                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+                <p><a href="">Profil</a></p>
+                <p><a href="{% url 'feed' %}">Flux</a></p>
+            {% endif %}
+        </div>
+
     </header>
-    <div class="main">
-        {% block content %}{% endblock content %}
+
+    <div class="container">
+        <div class="col"></div>
+        <div class="main">
+            {% block content %}{% endblock content %}
+        </div>
+        <div class="col"></div>
     </div>
+
 </body>
 </html>

@@ -18,9 +18,19 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from feed.views import feed
+from authentication.views import LoginPage, SignupPage, logout_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Authentication App related
+    path('', LoginPage.as_view(), name='login'),
+    path('signup/', SignupPage.as_view(), name='signup'),
+    path('logout/', logout_user, name='logout'),
+
+    # Feed App related
+    path('feed/', feed, name='feed'),
 ]
 
 

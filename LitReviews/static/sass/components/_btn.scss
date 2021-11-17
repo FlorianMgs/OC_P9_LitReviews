@@ -1,16 +1,15 @@
 .btn {
     display: block;
     @include font_style;
+    font-size: medium;
     font-weight: bold;
-    font-size: large;
-    color: $bg-color;
-    background-color: $secondary-color;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.5);
     border: solid 1px $font-color;
-    border-radius:5px;
+    border-radius:2px;
     transition: all 0.3s;
     &:hover {
-        color: $bg-color;
-        background-color: $primary-color;
-        border: solid 1px $secondary-color;
+        cursor: pointer;
+        color: $primary-color;
     }
 }

@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from feed.views import feed
+from feed.views import feed, create_ticket
 from authentication.views import LoginPage, SignupPage, logout_user
 
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
 
     # Feed App related
     path('feed/', feed, name='feed'),
+    path('create-ticket/', create_ticket, name='create_ticket'),
 ]
 
 

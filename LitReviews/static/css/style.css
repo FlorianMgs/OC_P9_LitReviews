@@ -33,7 +33,7 @@ a {
   transition: color 0.5s;
 }
 a:hover {
-  color: #e2c170;
+  color: #c49b38;
 }
 
 p {
@@ -47,12 +47,17 @@ ul {
 }
 
 .form {
-  background-color: #fff;
-  padding: 5px 10px 10px 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px 30px 10px 30px;
   border-radius: 10px;
+  border: 1px solid #000;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.form textarea {
+  font-family: "typewriter_condensedregular";
+  color: #000;
 }
 .form input, .form label {
   display: block;
@@ -67,7 +72,7 @@ ul {
   font-weight: bold;
 }
 .form .helptext, .form ul {
-  color: #e4ae2b;
+  color: #c49b38;
   font-size: small;
 }
 
@@ -75,18 +80,17 @@ ul {
   display: block;
   font-family: "typewriter_condensedregular";
   color: #000;
+  font-size: medium;
   font-weight: bold;
-  font-size: large;
-  color: #fff;
-  background-color: #e2c170;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.5);
   border: solid 1px #000;
-  border-radius: 5px;
+  border-radius: 2px;
   transition: all 0.3s;
 }
 .btn:hover {
-  color: #fff;
-  background-color: #e4ae2b;
-  border: solid 1px #e2c170;
+  cursor: pointer;
+  color: #c49b38;
 }
 
 .logo {
@@ -124,6 +128,26 @@ header .header__left {
 .main {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.container__feed {
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px 30px 10px 30px;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+.container__feed .photo {
+  max-width: 50%;
+  border: solid 2px #c49b38;
+}
+.container__feed h2, .container__feed h3 {
+  text-align: center;
+}
+.container__feed .user-date, .container__feed .photo-description {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 

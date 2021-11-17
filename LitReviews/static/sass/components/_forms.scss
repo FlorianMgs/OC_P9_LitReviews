@@ -1,8 +1,9 @@
 .form {
-    background-color: $bg-color;
-    padding: 5px 10px 10px 10px;
-    border-radius: 10px;
+    @include base_style_div;
     @include center;
+    & textarea {
+        @include font_style;
+    }
     & input, label {
         display: block;
         @include font_style;

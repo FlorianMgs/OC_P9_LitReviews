@@ -2,7 +2,20 @@
 
 {% block content %}
     {%if user.is_authenticated %}
-        <p>Bienvenue, {{ request.user }} !
+        <p>Bienvenue, {{ request.user }} !</p>
     {% endif %}
+    <a href="{% url 'create_ticket' %}">
+        <button class="btn">Demander une critique</button>
+    </a>
     <h2>Votre flux</h2>
+
+        {% if tickets %}
+            {% for instance in tickets %}
+            <div class="container__feed">
+                {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+
 {% endblock content %}

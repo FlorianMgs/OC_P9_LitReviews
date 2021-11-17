@@ -1,0 +1,23 @@
+.col {
+    width: 25%;
+}
+.main {
+    @include center;
+}
+
+.container__feed {
+    margin-bottom: 20px;
+    .photo {
+        max-width: 50%;
+        border: solid 2px $primary-color;
+    }
+    @include base_style_div;
+    h2, h3 {
+        text-align: center;
+    }
+    .user-date, .photo-description {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

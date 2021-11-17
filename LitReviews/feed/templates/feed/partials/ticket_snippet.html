@@ -1,0 +1,14 @@
+<h2>Demande</h2>
+<div class="user-date">
+    <p>{{ ticket.user }} a demandé une critique</p>
+    <p>{{ ticket.time_created }}</p>
+</div>
+<h3>{{ ticket.title }}</h3>
+<div class="photo-description">
+    {% if ticket.image %}
+        <p>
+            <img class="photo" src="{{ ticket.image.url }}">
+        </p>
+    {% endif %}
+    <p>{{ ticket.description }}</p>
+</div>

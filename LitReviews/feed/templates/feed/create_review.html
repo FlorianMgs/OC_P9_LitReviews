@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="form form__review">
+        <h2>Publier une critique</h2>
+        {% if both %}
+            <form method="post" enctype="multipart/form-data">
+                <h4>A propos de ce livre:</h4>
+                {{ ticket_form.as_p }}
+                <h4>Ma critique:</h4>
+                {{ review_form.as_p }}
+                {% csrf_token %}
+                <input class="btn" type="submit" value="Soumettre">
+            </form>
+        {% else %}
+            <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input class="btn" type="submit" value="Soumettre">
+            </form>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,5 @@
+.controls {
+    @include font_style;
+    display: flex;
+    flex-direction: column;
+}

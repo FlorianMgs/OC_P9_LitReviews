@@ -1,23 +1,36 @@
-.col {
+.col-25 {
     width: 25%;
 }
+
 .main {
     @include center;
+    flex: 0 0 60%;
 }
-
+.container__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .container__feed {
+    width: 100%;
     margin-bottom: 20px;
-    .photo {
-        max-width: 50%;
-        border: solid 2px $primary-color;
-    }
     @include base_style_div;
     h2, h3 {
         text-align: center;
     }
-    .user-date, .photo-description {
+    .photo {
+        max-width: 130px;
+        border: solid 2px $primary-color;
+    }
+    .description {
+        padding-left: 10px;
+    }
+    .photo-description, .user-date {
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    .fa-star {
+        color: $primary-color;
     }
 }

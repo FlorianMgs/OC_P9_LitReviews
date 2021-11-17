@@ -1,21 +1,48 @@
 {% extends 'base.html' %}
+{% load feed_extras %}
 
 {% block content %}
     {%if user.is_authenticated %}
         <p>Bienvenue, {{ request.user }} !</p>
     {% endif %}
-    <a href="{% url 'create_ticket' %}">
-        <button class="btn">Demander une critique</button>
-    </a>
-    <h2>Votre flux</h2>
+    <div class="container">
+        <a href="{% url 'create_ticket' %}">
+            <button class="btn">Demander une critique</button>
+        </a>
+        <a href="{% url 'create_ticket_and_review' %}">
+            <button class="btn">Publier une critique</button>
+        </a>
+    </div>
 
-        {% if tickets %}
-            {% for instance in tickets %}
-            <div class="container__feed">
-                {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
-            </div>
-            {% endfor %}
-        {% endif %}
+    <h2>Votre flux</h2>
+        {% for instance in tickets_and_reviews %}
+            {% if instance|model_type == 'Ticket' %}
+                <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
+                    <div class="user-date">
+                        <p>{{ instance.user }} a demandé une critique</p>
+                        <p>{{ instance.time_created }}</p>
+                    </div>
+                    {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+                    <div class="container__buttons">
+                    {% if instance.user == request.user %}
+                        <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
+                    {% endif %}
+                    {% if instance.has_review == False %}
+                        <a href="{% url 'create_review' instance.id %}">
+                            <button class="btn">Poster une critique</button>
+                        </a>
+                    {% endif %}
+                    </div>
+                </div>
+            {% elif instance|model_type == 'Review' %}
+                <div class="container__feed review">
+                    {% include 'feed/partials/review_snippet.html' with review=instance %}
+                    {% if instance.user == request.user %}
+                        <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
 
 
 {% endblock content %}

@@ -1,0 +1,12 @@
+{% load feed_extras %}
+
+<div class="user-date">
+    <p>{{ review.user }} a publié une critique</p>
+    <p>{{ review.time_created }}</p>
+</div>
+<h3>{{ review.headline }} - {% for i in 0|range:review.rating %}<i class="fas fa-star"></i>{% endfor %}</h3>
+<p>{{ review.body }}</p>
+<hr>
+<div class="container__ticket">
+    {% include 'feed/partials/ticket_snippet.html' with ticket=review.ticket %}
+</div>

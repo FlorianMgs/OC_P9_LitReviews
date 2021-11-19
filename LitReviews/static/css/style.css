@@ -186,6 +186,18 @@ header .header__left {
   flex-direction: column;
 }
 
+.controls-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.control-flux {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .profile-pic {
   max-width: 180px;
   clip-path: circle();

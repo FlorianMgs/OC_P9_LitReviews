@@ -5,7 +5,9 @@
     {%if user.is_authenticated %}
         <p>Bienvenue, {{ request.user }} !</p>
     {% endif %}
+
     <div class="container">
+
         <a href="{% url 'create_ticket' %}">
             <button class="btn">Demander une critique</button>
         </a>

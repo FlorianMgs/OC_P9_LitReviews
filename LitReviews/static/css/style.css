@@ -166,11 +166,31 @@ header .header__left {
   color: #c49b38;
 }
 
+.user-infos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.user-infos .profile-pic-feed {
+  max-width: 50px;
+  clip-path: circle();
+  display: block;
+  margin: auto;
+}
+
 .controls {
   font-family: "typewriter_condensedregular";
   color: #000;
   display: flex;
   flex-direction: column;
+}
+
+.profile-pic {
+  max-width: 180px;
+  clip-path: circle();
+  display: block;
+  margin: auto;
 }
 
 /*# sourceMappingURL=style.css.map */

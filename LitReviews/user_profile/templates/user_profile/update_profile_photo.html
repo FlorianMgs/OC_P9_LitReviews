@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="form form__update-profile-photo">
+        <h2>Changer votre photo de profil:</h2>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input class="btn" type="submit" value="Soumettre">
+        </form>
+    </div>
+{% endblock content %}

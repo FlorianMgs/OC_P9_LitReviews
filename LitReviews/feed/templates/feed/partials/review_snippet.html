@@ -1,7 +1,10 @@
 {% load feed_extras %}
 
 <div class="user-date">
-    <p>{{ review.user }} a publié une critique</p>
+    <div class="user-infos">
+        {% include 'feed/partials/user_infos_snippet.html' with user=review.user %}
+        <p><strong>{{ review.user.username }}</strong> a publié une critique</p>
+    </div>
     <p>{{ review.time_created }}</p>
 </div>
 <h3>{{ review.headline }} - {% for i in 0|range:review.rating %}<i class="fas fa-star"></i>{% endfor %}</h3>

@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 from feed.views import feed, create_ticket, create_review, create_ticket_and_review, edit_ticket, edit_review
 from authentication.views import LoginPage, SignupPage, logout_user
+from user_profile.views import user_profile, update_profile_photo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +38,10 @@ urlpatterns = [
     path('create-review/<int:ticket_id>/', create_review, name='create_review'),
     path('create-review/', create_ticket_and_review, name='create_ticket_and_review'),
     path('edit-review/<int:review_id>/', edit_review, name='edit_review'),
+
+    # Profile App related
+    path('profile/<str:user>/', user_profile, name="user_profile"),
+    path('profile/update-profile-photo', update_profile_photo, name="update_profile_photo"),
 ]
 
 

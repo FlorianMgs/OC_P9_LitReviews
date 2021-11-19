@@ -1,4 +1,4 @@
 .idea
 venv
 LitReviews/db.sqlite3
-LitReviews/media
+/LitReviews/media/

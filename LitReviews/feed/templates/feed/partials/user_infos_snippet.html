@@ -1,0 +1,10 @@
+{% load static %}
+
+
+    <a href="{% url 'user_profile' user.username %}">
+        {% if user.profile_photo %}
+            <img class="profile-pic-feed" src="{{ user.profile_photo.url }}">
+        {% else %}
+            <img class="profile-pic-feed" src="{% static 'img/default_profile.png' %}">
+        {% endif %}
+    </a>

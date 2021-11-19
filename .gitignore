@@ -2,3 +2,4 @@
 venv
 LitReviews/db.sqlite3
 /LitReviews/media/
+/LitReviews/__pycache__/

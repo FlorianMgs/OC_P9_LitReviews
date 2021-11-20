@@ -18,9 +18,9 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from feed.views import feed, create_ticket, create_review, create_ticket_and_review, edit_ticket, edit_review
+from feed.views import feed, discover, create_ticket, create_review, create_ticket_and_review, edit_ticket, edit_review
 from authentication.views import LoginPage, SignupPage, logout_user
-from user_profile.views import user_profile, update_profile_photo
+from user_profile.views import user_profile, update_profile_photo, followers_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
 
     # Feed App related
     path('feed/', feed, name='feed'),
+    path('discover/', discover, name='discover'),
     path('create-ticket/', create_ticket, name='create_ticket'),
     path('edit-ticket/<int:ticket_id>/', edit_ticket, name='edit_ticket'),
 
@@ -42,6 +43,7 @@ urlpatterns = [
     # Profile App related
     path('profile/<str:user>/', user_profile, name="user_profile"),
     path('profile/update-profile-photo', update_profile_photo, name="update_profile_photo"),
+    path('profile/<str:user>/followers', followers_page, name="followers_page")
 ]
 
 

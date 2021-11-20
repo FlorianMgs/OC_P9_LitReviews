@@ -2,60 +2,103 @@
 {% load feed_extras %}
 
 {% block content %}
-    {%if user.is_authenticated %}
-        <p>Bienvenue, {{ request.user }} !</p>
-    {% endif %}
 
-    <div class="container">
-
-        <a href="{% url 'create_ticket' %}">
-            <button class="btn">Demander une critique</button>
-        </a>
-        <a href="{% url 'create_ticket_and_review' %}">
-            <button class="btn">Publier une critique</button>
-        </a>
+    <div class="col-25">
+        <div class="controls">
+            <h3>Cacher:</h3>
+            <div class="controls__group">
+                <input type="checkbox" id="chk_hide_reviews" onclick="showHide('.review')">
+                <label for="chk_hide_reviews">Critiques</label>
+            </div>
+            <div class="controls__group">
+                <input type="checkbox" id="chk_hide_tickets" onclick="showHide('.ticket')">
+                <label for="chk_hide_tickets">Demandes</label>
+            </div>
+            <div class="controls__group">
+                <input type="checkbox" id="chk_hide_reviewed_tickets" onclick="showHide('.reviewed')">
+                <label for="chk_hide_reviewed_tickets">Demandes répondues</label>
+            </div>
+        </div>
     </div>
+    <div class="main">
+        {%if user.is_authenticated %}
+        <p>Bienvenue, <b>{{ request.user }}</b> !</p>
+        {% endif %}
 
-    <h2>Votre flux</h2>
+        <div class="container">
 
-        {% for instance in tickets_and_reviews %}
+            <a href="{% url 'create_ticket' %}">
+                <button class="btn">Demander une critique</button>
+            </a>
+            <a href="{% url 'create_ticket_and_review' %}">
+                <button class="btn">Publier une critique</button>
+            </a>
+        </div>
 
-            {% if instance|model_type == 'Ticket' %}
+        {% if '/feed/' in request.path %}
+            <h2>Mon flux</h2>
+        {% else %}
+            <h2>Découvertes</h2>
+        {% endif %}
 
-                <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
-                    <div class="user-date">
-                        <div class="user-infos">
-                            {% include 'feed/partials/user_infos_snippet.html' with user=instance.user %}
-                            <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+            {% for instance in page_obj %}
+
+                {% if instance|model_type == 'Ticket' %}
+
+                    <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
+                        <div class="user-date">
+                            <div class="user-infos">
+                                {% include 'feed/partials/user_infos_snippet.html' with user=instance.user %}
+                                <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+                            </div>
+                            <p>{{ instance.time_created }}</p>
                         </div>
-                        <p>{{ instance.time_created }}</p>
+                        {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+                        <div class="container__buttons">
+                        {% if instance.user == request.user %}
+                            <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
+                        {% endif %}
+                        {% if instance.has_review == False %}
+                            <a href="{% url 'create_review' instance.id %}">
+                                <button class="btn">Poster une critique</button>
+                            </a>
+                        {% endif %}
+                        </div>
                     </div>
-                    {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
-                    <div class="container__buttons">
-                    {% if instance.user == request.user %}
-                        <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
-                    {% endif %}
-                    {% if instance.has_review == False %}
-                        <a href="{% url 'create_review' instance.id %}">
-                            <button class="btn">Poster une critique</button>
-                        </a>
-                    {% endif %}
+
+
+                {% elif instance|model_type == 'Review' %}
+
+                    <div class="container__feed review">
+                        {% include 'feed/partials/review_snippet.html' with review=instance %}
+                        {% if instance.user == request.user %}
+                            <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
+                        {% endif %}
                     </div>
-                </div>
 
+                {% endif %}
 
-            {% elif instance|model_type == 'Review' %}
-
-                <div class="container__feed review">
-                    {% include 'feed/partials/review_snippet.html' with review=instance %}
-                    {% if instance.user == request.user %}
-                        <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
-                    {% endif %}
-                </div>
-
+            {% endfor %}
+        <span>
+            {% if page_obj.has_previous %}
+                <a href="?page=1">« première</a> |
+                <a href="?page={{ page_obj.previous_page_number }}">← précédente</a>
             {% endif %}
 
-        {% endfor %}
+            <span>
+                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
 
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">suivante →</a> |
+
+                <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+            {% endif %}
+        </span>
+    </div>
+
+
+    <div class="col-25">
+    </div>
 
 {% endblock content %}

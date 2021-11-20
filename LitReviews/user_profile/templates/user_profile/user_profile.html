@@ -3,76 +3,99 @@
 {% load user_profile_extras %}
 
 {% block content %}
-    {%if user.username == requested_user.username %}
-        <a href="{% url 'update_profile_photo' %}">
-            {% if user.profile_photo %}
-                <img class="profile-pic" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil">
+
+    <div class="col-25">
+        <div class="controls">
+            <h3>Cacher:</h3>
+            <div class="controls__group">
+                <input type="checkbox" id="chk_hide_reviews" onclick="showHide('.review')">
+                <label for="chk_hide_reviews">Critiques</label>
+            </div>
+            <div class="controls__group">
+                <input type="checkbox" id="chk_hide_tickets" onclick="showHide('.ticket')">
+                <label for="chk_hide_tickets">Demandes</label>
+            </div>
+            <div class="controls__group">
+                <input type="checkbox" id="chk_hide_reviewed_tickets" onclick="showHide('.reviewed')">
+                <label for="chk_hide_reviewed_tickets">Demandes répondues</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        {%if user.username == requested_user.username %}
+            <a href="{% url 'update_profile_photo' %}">
+                {% if user.profile_photo %}
+                    <img class="profile-pic" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil">
+                {% else %}
+                    <img class="profile-pic" src="{% static 'img/default_profile.png' %}">
+                {% endif %}
+            </a>
+        <p><b><a href="{% url 'user_profile' user.username %}">{{user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+            <div class="container">
+                <a href="{% url 'create_ticket' %}">
+                    <button class="btn">Demander une critique</button>
+                </a>
+                <a href="{% url 'create_ticket_and_review' %}">
+                    <button class="btn">Publier une critique</button>
+                </a>
+            </div>
+            <h2>Mes Posts</h2>
+        {% else %}
+            {% if requested_user.profile_photo %}
+                <img class="profile-pic" src="{{ requested_user.profile_photo.url }}">
             {% else %}
                 <img class="profile-pic" src="{% static 'img/default_profile.png' %}">
             {% endif %}
-        </a>
-        <p>{{ user.username }}</p>
-        <div class="container">
-            <a href="{% url 'create_ticket' %}">
-                <button class="btn">Demander une critique</button>
-            </a>
-            <a href="{% url 'create_ticket_and_review' %}">
-                <button class="btn">Publier une critique</button>
-            </a>
-        </div>
-        <h2>Mes Posts</h2>
-    {% else %}
-        {% if requested_user.profile_photo %}
-            <img class="profile-pic" src="{{ requested_user.profile_photo.url }}">
-        {% else %}
-            <img class="profile-pic" src="{% static 'img/default_profile.png' %}">
+        <p><a href="{% url 'user_profile' requested_user.username %}"><b>{{ requested_user.username }}</b></a> | <a href="{% url 'followers_page' requested_user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+            <form method="post">
+                {{ follow_form.as_p }}
+                {% csrf_token %}
+                <input class="btn" id="follow_btn" type="submit" value="{{ btn_text }}">
+            </form>
+            <h2>Posts de {{ requested_user.username }}</h2>
         {% endif %}
-        <p>{{ requested_user.username }}</p>
-        <form method="post">
-            {{ follow_form.as_p }}
-            {% csrf_token %}
-            <input class="btn" id="follow_btn" type="submit" value="{{ btn_text }}">
-        </form>
-        <h2>Posts de {{ requested_user.username }}</h2>
-    {% endif %}
 
 
-        {% for instance in tickets_and_reviews %}
+            {% for instance in tickets_and_reviews %}
 
-            {% if instance|model_type == 'Ticket' %}
+                {% if instance|model_type == 'Ticket' %}
 
-                <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
+                    <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
 
-                    <div class="user-date">
-                        <div class="user-infos">
-                            {% include 'feed/partials/user_infos_snippet.html' with user=instance.user %}
-                            <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+                        <div class="user-date">
+                            <div class="user-infos">
+                                {% include 'feed/partials/user_infos_snippet.html' with user=instance.user %}
+                                <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+                            </div>
+                            <p>{{ instance.time_created }}</p>
                         </div>
-                        <p>{{ instance.time_created }}</p>
+
+                        {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
+                        <div class="container__buttons">
+                        {% if instance.user == request.user %}
+                            <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
+                        {% endif %}
+                        {% if instance.has_review == False %}
+                            <a href="{% url 'create_review' instance.id %}">
+                                <button class="btn">Poster une critique</button>
+                            </a>
+                        {% endif %}
+                        </div>
                     </div>
 
-                    {% include 'feed/partials/ticket_snippet.html' with ticket=instance %}
-                    <div class="container__buttons">
-                    {% if instance.user == request.user %}
-                        <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
-                    {% endif %}
-                    {% if instance.has_review == False %}
-                        <a href="{% url 'create_review' instance.id %}">
-                            <button class="btn">Poster une critique</button>
-                        </a>
-                    {% endif %}
+                {% elif instance|model_type == 'Review' %}
+                    <div class="container__feed review">
+                        {% include 'feed/partials/review_snippet.html' with review=instance %}
+                        {% if instance.user == request.user %}
+                            <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
+                        {% endif %}
                     </div>
-                </div>
+                {% endif %}
+            {% endfor %}
+    </div>
+    <div class="col-25">
 
-            {% elif instance|model_type == 'Review' %}
-                <div class="container__feed review">
-                    {% include 'feed/partials/review_snippet.html' with review=instance %}
-                    {% if instance.user == request.user %}
-                        <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
-                    {% endif %}
-                </div>
-            {% endif %}
-        {% endfor %}
-
+    </div>
 
 {% endblock content %}

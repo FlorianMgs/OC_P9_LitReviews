@@ -20,3 +20,12 @@
         font-size: small;
     }
 }
+
+.form__search {
+    @include center;
+    & input {
+        display: block;
+        width: 100%;
+        height: 35px;
+    }
+}

@@ -36,12 +36,6 @@
 }
 
 .user-infos {
-    .profile-pic-feed {
-        max-width: 50px;
-        clip-path: circle();
-        display: block;
-        margin: auto;
-    }
     display: flex;
     flex-direction: row;
     align-items: center;

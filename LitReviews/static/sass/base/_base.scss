@@ -8,3 +8,6 @@ html {
     display: flex;
     justify-content: space-evenly;
 }
+.profile-pic-small {
+    @include profile-pic-small;
+}

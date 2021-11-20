@@ -8,7 +8,12 @@
 </head>
 <body>
     <header>
-        <div class="header__right"></div>
+        <div class="header__right">
+            {%if user.is_authenticated %}
+                <p><a href="{% url 'feed' %}">Mon Flux</a></p>
+                <p><a href="{% url 'discover' %}">Découvertes</a></p>
+            {% endif %}
+        </div>
         <a href="{% if user.is_authenticated %}{% url 'feed' %}{% else %}{% url 'login' %}{% endif %}">
             <div class="header__center">
                 <img class="logo" src="{% static 'img/logo_black.png' %}">
@@ -17,38 +22,16 @@
         </a>
         <div class="header__left">
             {%if user.is_authenticated %}
-                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
-                <p><a href="{% url 'user_profile' request.user %}">Profil</a></p>
-                <p><a href="{% url 'feed' %}">Flux</a></p>
+                <p><a href="{% url 'logout' %}">Me déconnecter</a></p>
+                <p><a href="{% url 'user_profile' request.user %}">Mon Profil</a></p>
             {% endif %}
         </div>
 
     </header>
 
     <div class="container">
-        <div class="col-25">
-            {% if request.path == '/feed/' or '/profile/' in request.path %}
-                <div class="controls">
-                    <h3>Cacher:</h3>
-                    <div class="controls__group">
-                        <input type="checkbox" id="chk_hide_reviews" onclick="showHide('.review')">
-                        <label for="chk_hide_reviews">Critiques</label>
-                    </div>
-                    <div class="controls__group">
-                        <input type="checkbox" id="chk_hide_tickets" onclick="showHide('.ticket')">
-                        <label for="chk_hide_tickets">Demandes</label>
-                    </div>
-                    <div class="controls__group">
-                        <input type="checkbox" id="chk_hide_reviewed_tickets" onclick="showHide('.reviewed')">
-                        <label for="chk_hide_reviewed_tickets">Demandes répondues</label>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-        <div class="main">
-            {% block content %}{% endblock content %}
-        </div>
-        <div class="col-25"></div>
+        {% block content %}{% endblock content %}
+
     </div>
 
 </body>

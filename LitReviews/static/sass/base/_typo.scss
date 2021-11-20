@@ -26,10 +26,6 @@ a {
     }
 }
 
-p {
-    @include font_style;
-}
-
-ul {
+p, span, ul {
     @include font_style;
 }

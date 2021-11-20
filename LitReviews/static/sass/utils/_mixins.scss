@@ -15,3 +15,10 @@
     border-radius: 3px;
     border: 1px solid $font-color;
 }
+
+@mixin profile-pic-small {
+    max-width: 50px;
+    clip-path: circle();
+    display: block;
+    margin: auto;
+}

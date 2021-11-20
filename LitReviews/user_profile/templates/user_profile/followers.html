@@ -9,9 +9,9 @@
 
     <div class="main">
         {%if user.username == requested_user.username %}
-            <a href="{% url 'update_profile_photo' %}">
+            <a href="{% url 'user_profile' user.username %}">
                 {% if user.profile_photo %}
-                    <img class="profile-pic" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil">
+                    <img class="profile-pic" src="{{ user.profile_photo.url }}">
                 {% else %}
                     <img class="profile-pic" src="{% static 'img/default_profile.png' %}">
                 {% endif %}
@@ -19,11 +19,13 @@
         <p><b><a href="{% url 'user_profile' user.username %}">{{user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
             <h2>Mes Abonnements</h2>
         {% else %}
+            <a href="{% url 'user_profile' requested_user.username %}">
             {% if requested_user.profile_photo %}
                 <img class="profile-pic" src="{{ requested_user.profile_photo.url }}">
             {% else %}
                 <img class="profile-pic" src="{% static 'img/default_profile.png' %}">
             {% endif %}
+                </a>
         <p><a href="{% url 'user_profile' requested_user.username %}"><b>{{ requested_user.username }}</b></a> | <a href="{% url 'followers_page' requested_user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
             <h2>Abonnements de {{ requested_user.username }}</h2>
         {% endif %}

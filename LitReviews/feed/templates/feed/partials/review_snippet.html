@@ -3,7 +3,7 @@
 <div class="user-date">
     <div class="user-infos">
         {% include 'feed/partials/user_infos_snippet.html' with user=review.user %}
-        <p><strong>{{ review.user.username }}</strong> a publié une critique</p>
+        <p><a href="{% url 'user_profile' review.user.username %}"><strong>{{ review.user.username }}</strong></a> a publié une critique</p>
     </div>
     <p>{{ review.time_created }}</p>
 </div>

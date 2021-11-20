@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load feed_extras %}
 
 {% block content %}
@@ -22,6 +23,13 @@
     </div>
     <div class="main">
         {%if user.is_authenticated %}
+            <a href="{% url 'user_profile' user.username %}">
+                {% if user.profile_photo %}
+                    <img class="profile-pic" src="{{ user.profile_photo.url }}">
+                {% else %}
+                    <img class="profile-pic" src="{% static 'img/default_profile.png' %}">
+                {% endif %}
+            </a>
         <p>Bienvenue, <b>{{ request.user }}</b> !</p>
         {% endif %}
 
@@ -49,7 +57,7 @@
                         <div class="user-date">
                             <div class="user-infos">
                                 {% include 'feed/partials/user_infos_snippet.html' with user=instance.user %}
-                                <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+                                <p><a href="{% url 'user_profile' instance.user.username %}"><strong>{{ instance.user.username }}</strong></a> a demandé une critique</p>
                             </div>
                             <p>{{ instance.time_created }}</p>
                         </div>

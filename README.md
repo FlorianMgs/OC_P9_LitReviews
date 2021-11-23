@@ -20,7 +20,7 @@ L'application est un réseau social permettant de demander et poster des critiqu
 ## Installation & lancement
 
 Commencez tout d'abord par installer Python 3.10.  
-Si vous souhaitez modifier le style, il est souhaitable d'installer Sass.  
+Si vous souhaitez modifier le style, veuillez aussi installer Sass.  
 Lancez ensuite la console, placez vous dans le dossier de votre choix puis clonez ce repository:
 ```
 git clone https://github.com/FlorianMgs/OC_P9_LitReviews.git

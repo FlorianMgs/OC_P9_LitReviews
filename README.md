@@ -56,5 +56,5 @@ python manage.py runserver
 ```
 Vous pouvez ensuite utiliser l'applicaton à l'adresse suivante:
 ```
-http://127.0.0.1:8080
+http://127.0.0.1:8000
 ```

@@ -38,7 +38,7 @@ Linux:
 ```
 source env/bin/activate
 ```
-Il ne reste plus qu'à installer les packages requis:
+Installez ensuite les packages requis:
 ```
 pip install -r requirements.txt
 ```
